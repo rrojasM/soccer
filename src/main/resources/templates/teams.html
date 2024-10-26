@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Equipos</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="custom.css"> <!-- Asegúrate de enlazar tu archivo CSS personalizado -->
+</head>
+<body>
+<div class="container mt-5">
+    <h2>Equipos</h2>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre Equipo</th>
+            <th>Descripción</th>
+            <th>Logo</th>
+            <th>Puntos</th>
+            <th>Partidos Jugados</th>
+            <th>Partidos Ganados</th>
+            <th>Partidos Empatados</th>
+            <th>Partidos Perdidos</th>
+            <th>Goles Anotados</th>
+            <th>Goles en Contra</th>
+            <th>Goles de Diferencia</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="team : ${teams}" class="align-items-center">
+            <td th:text="${team.id}"></td>
+            <td th:text="${team.name}"></td>
+            <td th:text="${team.description}"></td>
+            <td>
+                <img th:src="${team.logoUrl}" alt="Logo" class="img-thumbnail logo-img">
+            </td>
+            <td th:text="${team.points}"></td>
+            <td th:text="${team.matchesPlayed}"></td>
+            <td th:text="${team.matchesWon}"></td>
+            <td th:text="${team.matchesDrawn}"></td>
+            <td th:text="${team.matchesLost}"></td>
+            <td th:text="${team.goalsFor}"></td>
+            <td th:text="${team.goalsAgainst}"></td>
+            <td th:text="${team.goalDifference}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <a href="/teams/add" class="btn btn-primary">Agregar Equipo</a>
+</div>
+</body>
+</html>

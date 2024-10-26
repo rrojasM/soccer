@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Team</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h2>Agregar Nuevo Equipo</h2>
+    <form th:action="@{/teams/add}" method="post">
+        <div class="form-group">
+            <label for="name">Nombre del Equipo</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Descripcion</label>
+            <textarea class="form-control" id="description" name="description" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="logoUrl">Logo URL</label>
+            <input type="text" class="form-control" id="logoUrl" name="logoUrl" required>
+        </div>
+        <div class="form-group">
+            <label for="points">Puntos</label>
+            <input type="number" class="form-control" id="points" name="points" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Agregar Equipo</button>
+    </form>
+</div>
+</body>
+</html>

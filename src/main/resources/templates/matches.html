@@ -1,0 +1,153 @@
+<!-- !DOCTYPE html>
+<html-- xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Matches</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        h2 {
+            color: #343a40;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        details {
+            margin-bottom: 15px;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            background-color: #ffffff;
+        }
+        summary {
+            padding: 10px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px 5px 0 0;
+        }
+        summary:hover {
+            background-color: #0056b3;
+        }
+        table {
+            margin: 0;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <h2>Partidos</h2>
+    <div th:each="entry, interStar : ${matchesByWeek}">
+        <details>
+            <summary th:text="'Semana ' + ${interStar.index + 1}"></summary>
+            <table class="table table-striped mt-3">
+                <thead>
+                <tr>
+                    <th>Local</th>
+                    <th>Visitante</th>
+                    <th>Fecha Partido</th>
+                    <th>Marcador</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="match : ${entry.value}">
+                    <td th:text="${match.homeTeam.name}"></td>
+                    <td th:text="${match.awayTeam.name}"></td>
+                    <td th:text="${#temporals.format(match.matchTime, 'dd-MM-yyyy HH:mm')}"></td>
+                    <td th:text="${match.homeTeamScore} + ' - ' + ${match.awayTeamScore}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </details>
+    </div>
+    <a href="/matches/generate" class="btn btn-primary mt-3">Generar partidos</a>
+    <a href="/matches/add" class="btn btn-primary mt-3">Agregar Resultado</a>
+</div>
+</body>
+</html-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Matches</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        h2 {
+            color: #343a40;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        details {
+            margin-bottom: 15px;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            background-color: #ffffff;
+        }
+        summary {
+            padding: 10px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px 5px 0 0;
+        }
+        summary:hover {
+            background-color: #0056b3;
+        }
+        table {
+            margin: 0;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <h2>Partidos</h2>
+    <div th:each="entry, iterStat : ${matchesByWeek}">
+        <details>
+            <summary th:text="'Semana ' + ${iterStat.index + 1}"></summary>
+            <table class="table table-striped mt-3">
+                <thead>
+                <tr>
+                    <th>Local</th>
+                    <th>Visitante</th>
+                    <th>Fecha Partido</th>
+                    <th>Marcador</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="match : ${entry.value}">
+                    <td><a th:href="@{/matches/{id}(id=${match.id})}" th:text="${match.homeTeam.name}"></a></td>
+                    <td><a th:href="@{/matches/{id}(id=${match.id})}" th:text="${match.awayTeam.name}"></a></td>
+                    <td th:text="${#temporals.format(match.matchTime, 'dd-MM-yyyy HH:mm')}"></td>
+                    <td th:text="${match.homeTeamScore} + ' - ' + ${match.awayTeamScore}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </details>
+    </div>
+    <a href="/matches/generate" class="btn btn-primary mt-3">Generar partidos</a>
+</div>
+</body>
+</html>
