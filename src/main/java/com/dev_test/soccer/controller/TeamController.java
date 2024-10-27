@@ -5,7 +5,11 @@ import com.dev_test.soccer.entity.Team;
 import com.dev_test.soccer.repository.MatchRepository;
 import com.dev_test.soccer.repository.TeamRespository;
 import com.dev_test.soccer.service.MatchService;
+import com.itextpdf.text.DocumentException;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +17,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.time.temporal.WeekFields;
 import java.util.List;
 import java.util.Map;
@@ -103,5 +109,44 @@ public class TeamController {
         teams.sort((t1, t2) -> Integer.compare(t2.getPoints(), t1.getPoints()));
         model.addAttribute("teams", teams);
         return "standings";
+    }
+
+    @GetMapping("/home")
+    public String home() {
+        return "home";
+    }
+    /*FILES DOWNLOAD*/
+
+    @GetMapping("/excel")
+    public void downloadExcel(HttpServletResponse response) throws IOException {
+        List<Match> matches = matchRepository.findAll();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+
+        // Generar el archivo Excel y escribir en el ByteArrayOutputStream
+        XSSFWorkbook workbook = new XSSFWorkbook();
+        matchService.generateExcelFile(matches, workbook);
+        workbook.write(stream);
+        workbook.close();
+
+        // Configurar la respuesta HTTP para la descarga
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=matches.xlsx");
+        response.getOutputStream().write(stream.toByteArray());
+        response.flushBuffer();
+    }
+
+    @GetMapping("/pdf")
+    public void downloadPdf(HttpServletResponse response) throws IOException, DocumentException {
+        List<Match> matches = matchRepository.findAll();
+        org.apache.commons.io.output.ByteArrayOutputStream stream = new org.apache.commons.io.output.ByteArrayOutputStream();
+
+        // Generar el archivo PDF y escribir en el ByteArrayOutputStream
+        matchService.generatePdfFile(matches, stream);
+
+        // Configurar la respuesta HTTP para la descarga
+        response.setContentType("application/pdf");
+        response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=matches.pdf");
+        response.getOutputStream().write(stream.toByteArray());
+        response.flushBuffer();
     }
 }
