@@ -2,41 +2,80 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Standings</title>
+
+    <!-- Bootstrap 5 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="custom.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css">
+
+    <style>
+        /* Estilos personalizados */
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .header {
+            background: linear-gradient(90deg, #343a40, #212529);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+        }
+
+        .table-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .table tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
 </head>
 <body>
+
 <div class="container mt-5">
-    <h2>Tabla General</h2>
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>Equipo</th>
-            <th>Puntos</th>
-            <th>Jugados</th>
-            <th>Ganados</th>
-            <th>Empatados</th>
-            <th>Perdidos</th>
-            <th>Goles a Favor</th>
-            <th>Goles en Contra</th>
-            <th>Goles de Diferencia</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="team : ${teams}">
-            <td th:text="${team.name}"></td>
-            <td th:text="${team.points}"></td>
-            <td th:text="${team.matchesPlayed}"></td>
-            <td th:text="${team.matchesWon}"></td>
-            <td th:text="${team.matchesDrawn}"></td>
-            <td th:text="${team.matchesLost}"></td>
-            <td th:text="${team.goalsFor}"></td>
-            <td th:text="${team.goalsAgainst}"></td>
-            <td th:text="${team.goalDifference}"></td>
-        </tr>
-        </tbody>
-    </table>
+    <div class="header">
+        <h2>Tabla General</h2>
+    </div>
+
+    <div class="table-container mt-4">
+        <table class="table table-hover table-bordered text-center">
+            <thead class="table-dark">
+            <tr>
+                <th>Equipo</th>
+                <th>Puntos</th>
+                <th>Jugados</th>
+                <th>Ganados</th>
+                <th>Empatados</th>
+                <th>Perdidos</th>
+                <th>Goles a Favor</th>
+                <th>Goles en Contra</th>
+                <th>Goles de Diferencia</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="team : ${teams}">
+                <td th:text="${team.name}"></td>
+                <td th:text="${team.points}"></td>
+                <td th:text="${team.matchesPlayed}"></td>
+                <td th:text="${team.matchesWon}"></td>
+                <td th:text="${team.matchesDrawn}"></td>
+                <td th:text="${team.matchesLost}"></td>
+                <td th:text="${team.goalsFor}"></td>
+                <td th:text="${team.goalsAgainst}"></td>
+                <td th:text="${team.goalDifference}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

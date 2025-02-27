@@ -2,85 +2,163 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Home</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="custom.css"> <!-- Asegúrate de enlazar tu archivo CSS personalizado -->
+
+    <!-- Bootstrap 5 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="custom.css"> <!-- Archivo de estilos personalizados -->
+
     <style>
+        /* Estilos generales */
         body {
-            background-color: #f4f4f4;
+            background-color: #f8f9fa;
         }
-        .container {
-            background-color: #fff;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+        .container-custom {
+            max-width: 700px;
+            margin: auto;
         }
-        h2 {
-            color: #007bff;
+
+        .header {
+            background: linear-gradient(90deg, #343a40, #212529);
+            color: white;
+            padding: 20px;
             text-align: center;
-            margin-bottom: 2rem;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            font-weight: bold;
         }
-        .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+
+        /* Estilos para las pestañas */
+        .nav-tabs {
+            border-bottom: none;
+            justify-content: center;
+        }
+
+        .nav-tabs .nav-link {
+            color: #007bff;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: none;
+            padding: 10px 20px;
+        }
+
+        .nav-tabs .nav-link:hover {
+            background-color: rgba(0, 123, 255, 0.1);
+            border-radius: 5px;
+        }
+
+        .nav-tabs .nav-item.show .nav-link,
+        .nav-tabs .nav-link.active {
             background-color: #007bff;
             color: white;
+            border-radius: 5px;
         }
+
+        /* Contenido de pestañas */
+        .tab-content {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 15px;
+        }
+
         .tab-pane h3 {
             color: #007bff;
-            margin-top: 2rem;
             border-bottom: 2px solid #007bff;
             padding-bottom: 0.5rem;
+            text-align: center;
+            font-weight: bold;
         }
+
+        /* Estilos de botones */
         .btn-primary {
             background-color: #007bff;
-            border-color: #007bff;
-            margin-top: 1rem;
+            border: none;
+            font-size: 16px;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
         }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
         .download-buttons {
-            margin-top: 2rem;
+            margin-top: 20px;
+            text-align: center;
         }
+
+        .download-buttons .btn {
+            width: 48%;
+            margin: 5px;
+        }
+
     </style>
 </head>
 <body>
-<div class="container mt-5">
-    <h2>Home</h2>
 
-    <nav class="nav nav-tabs">
-        <a class="nav-item nav-link active" href="#add-team" data-toggle="tab">Add Team</a>
-        <a class="nav-item nav-link" href="#add-match" data-toggle="tab">Add Match</a>
-        <a class="nav-item nav-link" href="#matches" data-toggle="tab">Matches</a>
-        <a class="nav-item nav-link" href="#standing" data-toggle="tab">Standing</a>
-        <a class="nav-item nav-link" href="#teams" data-toggle="tab">Teams</a>
-    </nav>
+<div class="container mt-5 container-custom">
+    <div class="header">
+        Home
+    </div>
 
+    <!-- Navegación por pestañas -->
+    <ul class="nav nav-tabs" id="homeTabs" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="add-team-tab" data-bs-toggle="tab" href="#add-team" role="tab">Add Team</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="add-match-tab" data-bs-toggle="tab" href="#add-match" role="tab">Add Match</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="matches-tab" data-bs-toggle="tab" href="#matches" role="tab">Matches</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="standing-tab" data-bs-toggle="tab" href="#standing" role="tab">Standing</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="teams-tab" data-bs-toggle="tab" href="#teams" role="tab">Teams</a>
+        </li>
+    </ul>
+
+    <!-- Contenido de las pestañas -->
     <div class="tab-content mt-3">
-        <div class="tab-pane fade show active" id="add-team">
+        <div class="tab-pane fade show active" id="add-team" role="tabpanel">
             <h3>Add Team</h3>
             <a href="/teams/add" class="btn btn-primary">Agregar Equipo</a>
         </div>
-        <div class="tab-pane fade" id="add-match">
+        <div class="tab-pane fade" id="add-match" role="tabpanel">
             <h3>Add Match</h3>
             <a href="/matches/add" class="btn btn-primary">Agregar Partido</a>
         </div>
-        <div class="tab-pane fade" id="matches">
+        <div class="tab-pane fade" id="matches" role="tabpanel">
             <h3>Matches</h3>
             <a href="/matches" class="btn btn-primary">Ver Juegos</a>
             <div class="download-buttons">
                 <a href="/excel" class="btn btn-success">Descargar Excel</a>
-                <a href="/pdf" class="btn btn-danger">Descargar PDF</a>
+                <a href="/download" class="btn btn-danger">Descargar PDF</a>
             </div>
         </div>
-        <div class="tab-pane fade" id="standing">
+        <div class="tab-pane fade" id="standing" role="tabpanel">
             <h3>Standing</h3>
             <a href="/standings" class="btn btn-primary">Tabla de Posiciones</a>
         </div>
-        <div class="tab-pane fade" id="teams">
+        <div class="tab-pane fade" id="teams" role="tabpanel">
             <h3>Teams</h3>
             <a href="/teams" class="btn btn-primary">Ver Equipos</a>
         </div>
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Bootstrap 5 Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

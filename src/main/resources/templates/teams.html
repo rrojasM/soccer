@@ -2,50 +2,118 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Equipos</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="custom.css"> <!-- Asegúrate de enlazar tu archivo CSS personalizado -->
+
+    <!-- Bootstrap 5 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="custom.css"> <!-- Asegúrate de tener tu archivo CSS personalizado -->
+
+    <style>
+        /* Estilos personalizados */
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .header {
+            background: linear-gradient(90deg, #343a40, #212529);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+        }
+
+        .table-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .table tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Estilo mejorado para las imágenes */
+        .logo-img {
+            width: 120px;  /* Mayor tamaño de la imagen */
+            height: 120px; /* Mayor tamaño de la imagen */
+            max-width: 150px; /* Asegura que no se expanda demasiado */
+            max-height: 150px;
+            object-fit: contain; /* Mantiene la proporción sin recortar la imagen */
+            border-radius: 10px;
+            border: 2px solid #ddd; /* Borde opcional para destacar la imagen */
+            padding: 5px;
+            background: white; /* Fondo blanco para destacar la imagen */
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
+
 <div class="container mt-5">
-    <h2>Equipos</h2>
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nombre Equipo</th>
-            <th>Descripción</th>
-            <th>Logo</th>
-            <th>Puntos</th>
-            <th>Partidos Jugados</th>
-            <th>Partidos Ganados</th>
-            <th>Partidos Empatados</th>
-            <th>Partidos Perdidos</th>
-            <th>Goles Anotados</th>
-            <th>Goles en Contra</th>
-            <th>Goles de Diferencia</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="team : ${teams}" class="align-items-center">
-            <td th:text="${team.id}"></td>
-            <td th:text="${team.name}"></td>
-            <td th:text="${team.description}"></td>
-            <td>
-                <img th:src="${team.logoUrl}" alt="Logo" class="img-thumbnail logo-img">
-            </td>
-            <td th:text="${team.points}"></td>
-            <td th:text="${team.matchesPlayed}"></td>
-            <td th:text="${team.matchesWon}"></td>
-            <td th:text="${team.matchesDrawn}"></td>
-            <td th:text="${team.matchesLost}"></td>
-            <td th:text="${team.goalsFor}"></td>
-            <td th:text="${team.goalsAgainst}"></td>
-            <td th:text="${team.goalDifference}"></td>
-        </tr>
-        </tbody>
-    </table>
-    <a href="/teams/add" class="btn btn-primary">Agregar Equipo</a>
+    <div class="header">
+        <h2>Equipos</h2>
+    </div>
+
+    <div class="table-container mt-4">
+        <table class="table table-hover table-bordered text-center">
+            <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Nombre Equipo</th>
+                <th>Descripción</th>
+                <th>Logo</th>
+                <th>Puntos</th>
+                <th>Partidos Jugados</th>
+                <th>Partidos Ganados</th>
+                <th>Partidos Empatados</th>
+                <th>Partidos Perdidos</th>
+                <th>Goles Anotados</th>
+                <th>Goles en Contra</th>
+                <th>Goles de Diferencia</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="team : ${teams}" class="align-middle">
+                <td th:text="${team.id}"></td>
+                <td th:text="${team.name}"></td>
+                <td th:text="${team.description}"></td>
+                <td>
+                    <img th:src="${team.logoUrl}" alt="Logo" class="img-thumbnail logo-img">
+                </td>
+                <td th:text="${team.points}"></td>
+                <td th:text="${team.matchesPlayed}"></td>
+                <td th:text="${team.matchesWon}"></td>
+                <td th:text="${team.matchesDrawn}"></td>
+                <td th:text="${team.matchesLost}"></td>
+                <td th:text="${team.goalsFor}"></td>
+                <td th:text="${team.goalsAgainst}"></td>
+                <td th:text="${team.goalDifference}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="text-center mt-4">
+        <a href="/teams/add" class="btn btn-primary">Agregar Equipo</a>
+    </div>
 </div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

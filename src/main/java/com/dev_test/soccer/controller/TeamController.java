@@ -10,6 +10,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -52,14 +54,12 @@ public class TeamController {
 
     @GetMapping("/matches")
     public String getMatches(Model model) {
-        List<Match> matches = matchRepository.findAll();
-        Map<Integer, List<Match>> matchesByWeek = matches.stream()
-                .collect(Collectors.groupingBy(match -> match.getMatchTime().get(WeekFields.ISO.weekOfYear())));
-
+        // Obtener todos los partidos de la base de datos una vez
+        List<Match> matches = matchRepository.findAll(); // Agrupar partidos por semana del año
+        Map<Integer, List<Match>> matchesByWeek = matches.stream().collect(Collectors.groupingBy(match -> match.getMatchTime().get(WeekFields.ISO.weekOfYear()))); // Añadir atributos al modelo
         model.addAttribute("matchesByWeek", matchesByWeek);
+        model.addAttribute("matches", matches); // Retornar la vista
         return "matches";
-        //model.addAttribute("matches", matchRepository.findAll());
-        //return "matches";
     }
 
     @GetMapping("/matches/add")
@@ -71,7 +71,15 @@ public class TeamController {
 
     @PostMapping("/matches/add")
     public String addMatchResult(@ModelAttribute Match match) {
-        matchRepository.save(match);
+        Team homeTeam = teamRepository.findById(match.getHomeTeam().getId())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid home team Id:" + match.getHomeTeam().getId()));
+        Team awayTeam = teamRepository.findById(match.getAwayTeam().getId())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid away team Id:" + match.getAwayTeam().getId()));
+
+        match.setHomeTeam(homeTeam);
+        match.setAwayTeam(awayTeam);
+
+        matchRepository.saveAndFlush(match);
         return "redirect:/matches";
     }
 
@@ -135,6 +143,7 @@ public class TeamController {
         response.flushBuffer();
     }
 
+    /*
     @GetMapping("/pdf")
     public void downloadPdf(HttpServletResponse response) throws IOException, DocumentException {
         List<Match> matches = matchRepository.findAll();
@@ -148,5 +157,6 @@ public class TeamController {
         response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=matches.pdf");
         response.getOutputStream().write(stream.toByteArray());
         response.flushBuffer();
-    }
+    }*/
+
 }

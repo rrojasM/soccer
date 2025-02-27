@@ -9,6 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "teams")
+@ToString
 public class Team {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

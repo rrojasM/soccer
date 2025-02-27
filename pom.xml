@@ -75,6 +75,24 @@
 			<artifactId>itextpdf</artifactId>
 			<version>5.5.13.2</version>
 		</dependency>
+		<!-- iText 7 Core -->
+		<!--dependency>
+			<groupId>com.itextpdf</groupId>
+			<artifactId>itext7-core</artifactId>
+			<version>7.1.16</version>
+		</dependency-->
+
+		<!-- iText HTML2PDF -->
+		<dependency>
+			<groupId>com.itextpdf</groupId>
+			<artifactId>html2pdf</artifactId>
+			<version>4.0.2</version> <!-- Verifica la última versión -->
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+
 	</dependencies>
 
 	<build>
