@@ -15,18 +15,18 @@
         }
 
         .container-custom {
-            max-width: 800px;
+            max-width: 900px;
             margin: auto;
         }
 
         .header {
             background: linear-gradient(90deg, #343a40, #212529);
             color: white;
-            padding: 20px;
+            padding: 25px;
             text-align: center;
             border-radius: 8px;
             margin-bottom: 20px;
-            font-size: 1.5rem;
+            font-size: 2rem;
             font-weight: bold;
         }
 
@@ -37,6 +37,11 @@
             background-color: #ffffff;
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease-in-out;
+            overflow: hidden;
+        }
+
+        details[open] summary {
+            border-radius: 8px 8px 0 0;
         }
 
         details:hover {
@@ -45,17 +50,17 @@
 
         summary {
             padding: 15px;
-            font-size: 1.2em;
+            font-size: 1.3em;
             font-weight: bold;
             cursor: pointer;
-            background-color: #007bff;
+            background-color: #343a40;
             color: white;
-            border-radius: 8px 8px 0 0;
+            border-radius: 8px;
             transition: background 0.3s ease;
         }
 
         summary:hover {
-            background-color: #0056b3;
+            background-color: #212529;
         }
 
         /* Estilo de la tabla */
@@ -66,43 +71,42 @@
         }
 
         .table thead {
-            background-color: #007bff;
+            background-color: #343a40;
             color: white;
         }
 
         .table-striped tbody tr:hover {
-            background-color: rgba(0, 123, 255, 0.1);
+            background-color: rgba(52, 58, 64, 0.1);
         }
 
         /* Enlaces */
         a {
             text-decoration: none;
             font-weight: bold;
-            color: #007bff;
+            color: #343a40;
             transition: color 0.3s ease;
         }
 
         a:hover {
-            color: #0056b3;
+            color: #212529;
             text-decoration: underline;
         }
 
-        /* Botón de generar partidos */
-        .btn-primary {
-            background-color: #007bff;
+        /* Botón de agregar resultados */
+        .btn-results {
+            background-color: #343a40;
             border: none;
-            font-size: 16px;
+            font-size: 14px;
             border-radius: 8px;
             transition: background 0.3s ease;
-            width: 100%;
-            padding: 10px;
-            margin-top: 15px;
+            padding: 8px 12px;
+            color: white;
+            cursor: pointer;
         }
 
-        .btn-primary:hover {
-            background-color: #0056b3;
+        .btn-results:hover {
+            background-color: #212529;
         }
-
     </style>
 </head>
 <body>
@@ -122,14 +126,18 @@
                     <th>Visitante</th>
                     <th>Fecha Partido</th>
                     <th>Marcador</th>
+                    <th>Agregar Resultados</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="match : ${entry.value}">
-                    <td> <a th:href="@{/matches/{id}(id=${match.id})}" th:text="${match.homeTeam.name}"></a> </td>
-                    <td> <a th:href="@{/matches/{id}(id=${match.id})}" th:text="${match.awayTeam.name}"></a> </td>
+                    <td> <a th:text="${match.homeTeam.name}"></a> </td>
+                    <td> <a th:text="${match.awayTeam.name}"></a> </td>
                     <td th:text="${#temporals.format(match.matchTime, 'dd-MM-yyyy HH:mm')}"></td>
                     <td th:text="${match.homeTeamScore + ' - ' + match.awayTeamScore}"></td>
+                    <td>
+                        <a th:href="@{/matches/{id}(id=${match.id})}" class="btn-results">Agregar Resultados</a>
+                    </td>
                 </tr>
                 </tbody>
             </table>

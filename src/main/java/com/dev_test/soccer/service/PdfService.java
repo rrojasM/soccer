@@ -9,26 +9,35 @@ import org.thymeleaf.context.Context;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.List;
 
 @Service
 public class PdfService {
 
     private final TemplateEngine templateEngine;
+
     public PdfService(TemplateEngine templateEngine) {
         this.templateEngine = templateEngine;
     }
 
     public void generatePdfFromHtml1(ByteArrayOutputStream stream) throws IOException {
         // **Cargar la plantilla HTML**
-        String htmlFilePath = "src/main/resources/templates/pdf-file.html"; // Ruta del HTML
-        String htmlContent = new String(Files.readAllBytes(Paths.get(htmlFilePath)));
-
-        // **Convertir HTML a PDF**
-        HtmlConverter.convertToPdf(htmlContent, stream);
+        Path htmlFilePath = Path.of("src/main/resources/templates/pdf-file.html"); // Ruta del HTML
+        if (Files.exists(htmlFilePath)) {
+            String htmlContent = Files.readString(htmlFilePath);
+            // **Convertir HTML a PDF**
+            HtmlConverter.convertToPdf(htmlContent, stream);
+        } else {
+            throw new IOException("Archivo HTML no encontrado en: " + htmlFilePath);
+        }
     }
+
     public void generatePdfFromHtml(ByteArrayOutputStream stream, List<Match> matches) throws IOException {
+        if (matches == null || matches.isEmpty()) {
+            throw new IllegalArgumentException("La lista de partidos está vacía o es nula");
+        }
+
         Context context = new Context();
         context.setVariable("matches", matches);
 

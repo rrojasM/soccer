@@ -25,4 +25,16 @@ public class Match {
     private LocalDateTime matchTime;
     private int homeTeamScore;
     private int awayTeamScore;
+
+    public Match(Team homeTeam, Team awayTeam, LocalDateTime matchTime) {
+        if (matchTime == null) {
+            throw new IllegalArgumentException("El tiempo del partido no puede ser nulo.");
+        }
+        this.homeTeam = homeTeam;
+        this.awayTeam = awayTeam;
+        this.matchTime = matchTime;
+        this.homeTeamScore = 0;
+        this.awayTeamScore = 0;
+    }
+
 }
