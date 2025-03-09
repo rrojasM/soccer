@@ -118,7 +118,7 @@
 
     <div th:each="entry, iterStat : ${matchesByWeek}">
         <details>
-            <summary th:text="'Semana ' + ${iterStat.index + 1}"></summary>
+            <summary th:text="'Jornada ' + ${iterStat.index + 1}"></summary>
             <table class="table table-striped mt-3">
                 <thead>
                 <tr>
@@ -131,11 +131,11 @@
                 </thead>
                 <tbody>
                 <tr th:each="match : ${entry.value}">
-                    <td> <a th:text="${match.homeTeam.name}"></a> </td>
-                    <td> <a th:text="${match.awayTeam.name}"></a> </td>
+                    <td><a th:text="${match.homeTeam.name}"></a></td>
+                    <td><a th:text="${match.awayTeam.name}"></a></td>
                     <td th:text="${#temporals.format(match.matchTime, 'dd-MM-yyyy HH:mm')}"></td>
                     <td th:text="${match.homeTeamScore + ' - ' + match.awayTeamScore}"></td>
-                    <td>
+                    <td th:if="${match.homeTeamScore == 0 and match.awayTeamScore == 0}">
                         <a th:href="@{/matches/{id}(id=${match.id})}" class="btn-results">Agregar Resultados</a>
                     </td>
                 </tr>

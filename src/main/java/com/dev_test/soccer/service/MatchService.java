@@ -20,6 +20,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.poi.ss.usermodel.*;
 
@@ -132,15 +133,31 @@ public class MatchService {
     }
 
     public void updateTeamStats(Team team) {
-        List<Match> matchesPlayed = matchRepository.findByHomeTeamOrAwayTeam(team, team);
+        // Obtener los partidos en los que el equipo jugó, evitando duplicados
+        List<Match> matchesPlayed = matchRepository.findMatchesByTeam(team)
+                .stream()
+                .filter(match -> !(match.getHomeTeamScore() == 0 && match.getAwayTeamScore() == 0)) // Excluir partidos no jugados
+                .distinct() // Evitar duplicados
+                .collect(Collectors.toList());
 
         int wins = 0, draws = 0, losses = 0, goalsFor = 0, goalsAgainst = 0, points = 0;
 
         for (Match match : matchesPlayed) {
-            if (match.getHomeTeam().equals(team)) {
+            boolean isHomeTeam = match.getHomeTeam().equals(team);
+            boolean isAwayTeam = match.getAwayTeam().equals(team);
+
+            if (isHomeTeam) {
                 goalsFor += match.getHomeTeamScore();
                 goalsAgainst += match.getAwayTeamScore();
-                if (match.getHomeTeamScore() > match.getAwayTeamScore()) {
+            } else if (isAwayTeam) {
+                goalsFor += match.getAwayTeamScore();
+                goalsAgainst += match.getHomeTeamScore();
+            }
+
+            // Contar solo una vez cada partido
+            if (isHomeTeam || isAwayTeam) {
+                if ((isHomeTeam && match.getHomeTeamScore() > match.getAwayTeamScore()) ||
+                        (isAwayTeam && match.getAwayTeamScore() > match.getHomeTeamScore())) {
                     wins++;
                     points += 3;
                 } else if (match.getHomeTeamScore() == match.getAwayTeamScore()) {
@@ -149,21 +166,10 @@ public class MatchService {
                 } else {
                     losses++;
                 }
-            } else if (match.getAwayTeam().equals(team)) {
-                goalsFor += match.getAwayTeamScore();
-                goalsAgainst += match.getHomeTeamScore();
-                if (match.getAwayTeamScore() > match.getHomeTeamScore()) {
-                    wins++;
-                    points += 3;
-                } else if (match.getAwayTeamScore() == match.getHomeTeamScore()) {
-                    draws++;
-                    points += 1;
-                } else {
-                    losses++;
-                }
             }
         }
 
+        // Actualizar estadísticas del equipo
         team.setMatchesPlayed(wins + draws + losses);
         team.setMatchesWon(wins);
         team.setMatchesDrawn(draws);
@@ -173,6 +179,7 @@ public class MatchService {
         team.setGoalDifference(goalsFor - goalsAgainst);
         team.setPoints(points);
 
+        // Guardar el equipo actualizado en la base de datos
         teamRepository.save(team);
     }
 

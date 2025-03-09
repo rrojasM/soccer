@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -134,7 +135,7 @@ public class TeamController {
         return "redirect:/matches"; // Esta debería ser una vista donde se muestre el partido con sus detalles
     }*/
     @PostMapping("/matches/update")
-    public String updateMatchResult(@ModelAttribute Match updatedMatch) {
+    public String updateMatchResult(@ModelAttribute Match updatedMatch, RedirectAttributes redirectAttributes) {
         Match existingMatch = matchRepository.findById(updatedMatch.getId())
                 .orElseThrow(() -> new IllegalArgumentException("Partido no encontrado con ID: " + updatedMatch.getId()));
 
@@ -146,6 +147,8 @@ public class TeamController {
         // Actualizar estadísticas de los equipos
         matchService.updateTeamStats(existingMatch.getHomeTeam());
         matchService.updateTeamStats(existingMatch.getAwayTeam());
+
+        redirectAttributes.addFlashAttribute("successMessage", "Resultado actualizado correctamente");
 
         return "redirect:/standings";
     }
